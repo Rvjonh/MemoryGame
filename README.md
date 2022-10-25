@@ -1,6 +1,6 @@
 # Live App Link
 
-You can check this project through this link:
+You can check this project through this link: [Live App Link](https://rvjonh-memorygame.netlify.app/)
 
 Here you will find a model of the popular memory game.
 
