@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory game</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js" charset="utf-9" type="module"></script>
+    <link rel="icon" type="image/x-icon" href="imgs\favicon.png">
+</head>
+<body>
+    <div class="root">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="header-title">Memory game</h1>
+            <p class="header-subtitle">Play the popular game and try to memory where are the correct cards pairs</p>
+        </header>
+
+        <!-- Floating Button to show the configuration menu -->
+        <div class="config-menu">
+            <button class="config-btn" id="config-btn-menu">🔩</button>
+        </div>
+
+        <!-- the configuration menu, to change different aspects of the game -->
+        <div class="config-panel" id="config-panel" data-back="true">
+            <div class="config-subpanel">
+                <h2 class="config-title">Configuration <button class="config-title-button" id="close-config-menu">❌</button></h2>
+
+                <details class="config-option" open>
+                    <summary class="config-subtitle">Sounds</summary>
+                    <div class="theme-div">
+
+                        <p class="config-p">
+                            Enable or Disable the sounds
+                        </p>
+
+                        <label for="sound" class="sound-choice">
+                            <input type="checkbox" name="sound" id="sound" value="on" checked/>
+                            Sound
+                        </label>
+                        
+                    </div>
+                </details>
+
+                <details class="config-option" open>
+                    <summary class="config-subtitle">Pair numbers:</summary>
+                    <div class="theme-div">
+
+                        <p class="config-p">
+                            Select the number of pair of cards you want to play with:
+                        </p>
+                        
+                        <label for="points" class="points-choicer">
+                            <span class="points-number" id="points-number">3</span>
+                            <input class="points-range" type="range" name="points" id="points" value="3" min="2" max="30"/>
+                        </label>
+                    </div>
+                </details>
+                
+                <details class="config-option" open>
+
+                    <summary class="config-subtitle">Card Theme:</summary>
+                    <div class="theme-div">
+                        <p class="config-p">
+                            Select a color for every card back:
+                        </p>
+                        <details class="config-option-theme">
+                            <summary>Normal Color:</summary>
+                            <div class="theme-div">
+                                <label for="colorCard">Colour: 
+                                    <input id="colorCardNormal" value="#000000" id="colorCard" name="colorCard" type="color" />
+                                </label>
+                            </div>
+                        </details>
+                        <details class="config-option-theme">
+                            <summary>Linear Gradient</summary>
+                            <div class="l-g-container">
+                                <div class="l-g-directions">
+                                    <div class="l-g-d" data-dir="to top left">↖</div>
+                                    <div class="l-g-d selected" data-dir="to top">⬆</div>
+                                    <div class="l-g-d" data-dir="to top right">↗</div>
+                                    <div class="l-g-d" data-dir="to left">⬅</div>
+                                    <div class="l-g-square"></div>
+                                    <div class="l-g-d" data-dir="to right">➡</div>
+                                    <div class="l-g-d" data-dir="to bottom left">↙</div>
+                                    <div class="l-g-d" data-dir="to bottom">⬇</div>
+                                    <div class="l-g-d" data-dir="to bottom right">↘</div>
+                                </div>
+                                
+                                <div class="list-colors">
+
+                                    <div id="list-selected-colors" class="list-items">
+                                    </div>
+
+                                    <label class="list-choicer" for="colorCard">Colours: 
+                                        <input id="colorCardLinear" value="#000000" id="colorCard" name="colorCard" type="color" />
+                                        <button id="add-color-list" class="btn-colors">add</button>
+                                    </label>
+                                </div>
+                            </div>
+                        </details>
+                        <div class="controls-panel active expanded">
+                            <button id="reset-color-btn" class="btn btn-color">Reset Color</button>
+                        </div>
+                    </div>
+                </details>
+                
+                <details class="config-option" open>
+                    <summary class="config-subtitle">Type of card:</summary>
+                    <div class="theme-div">
+
+                        <p class="config-p">
+                            Select the type of cards you want to play with:
+                        </p>
+                        
+                        <div class="theme-div card-div">
+                            <label class="card" for="card-emoji">
+                                <input checked name="card-type" id="card-emoji" type="radio" value="Emojis">
+                                Emojis
+                                <img class="card-img" src="imgs\emojis-card.png" />
+                            </label>
+                            <label class="card" for="card-letters">
+                                <input name="card-type" id="card-letters" type="radio" value="Letters">
+                                Letters
+                                <img class="card-img" src="imgs\letters-card.png" />
+                            </label>
+                            <label class="card" for="card-numbers">
+                                <input name="card-type" id="card-numbers" type="radio" value="Numbers">
+                                Numbers
+                                <img class="card-img" src="imgs\numbers-card.png" />
+                            </label>
+                        </div>
+                    </div>
+                </details>
+
+                <div class="controls-panel active config-play-button">
+                    <button id="btn-play" class="btn btn-green">Play</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- the main panel -->
+        <div class="game-panel">
+            <!-- Panel where are caracteristics of the game -->
+            <div class="state-panel">
+                <h2 class="state-item">Score:&nbsp;<span id="goal"></span>/<span id="score"></span> 
+                    <p class="point" id="point-signal">
+                        <span>^</span>
+                        <span>^</span>
+                        <span>^</span>
+                    </p>
+                </h2>
+                
+                <h2 class="state-item">Time:&nbsp;<span id="timer">0s</span>
+
+                </h2>
+                <h2 class="state-item">Tries:&nbsp;<span id="tries">0</span>
+                    <p class="try">?</p>
+                </h2>
+            </div>
+
+            <!-- Panel to replay or show the caracteristics of a last game -->
+            <div class="controls-panel active presentation" id="final-controls">
+                <button class="btn btn-green btn-start presentation" id="final-controls-play" >Play 🔽</button>
+                <button class="btn btn-begin" id="final-controls-data" >Info 🔍</button>
+            </div>
+
+            <!-- Square where the cards are displayed -->
+            <div class="game-board" id="game">
+            </div>
+
+            <!-- Panel where the final caracteristics of the game are shown -->
+            <div class="final-msj" id="final-msj" data-break="true">
+                <div class="final-subpanel" data-break="true">
+
+                    <h3 class="final-title" id="final-title">Game Finished</h3>
+                    <div class="final-data">
+                        <span id="final-emoji" class="final-item-center"></span>
+                        <p class="final-item">Success:&nbsp;<span id="success-item"></span>%</p>
+                        <p class="final-item">Tries:&nbsp;<span id="tries-item"></span></p>
+                        <p class="final-item">Time:&nbsp;<span id="time-item"></span></p>
+                    </div>
+                    
+                    <div class="final-controls">
+                        <button id="btn-replay" class="btn btn-green final-btn">Replay 🔄</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
